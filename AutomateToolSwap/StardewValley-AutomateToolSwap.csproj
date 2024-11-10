@@ -12,7 +12,7 @@
 		<Exec Command="C:\Games\Stardew Valley\StardewModdingAPI.exe" />
 	</Target>
 	<ItemGroup>
-		<PackageReference Include="Pathoschild.Stardew.ModBuildConfig" Version="4.1.1" />
+		<PackageReference Include="Pathoschild.Stardew.ModBuildConfig" Version="4.3.1" />
 	</ItemGroup>
 
 </Project>

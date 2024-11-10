@@ -29,6 +29,8 @@ namespace AutomateToolSwap
         internal static string modsPath;
         IndexSwitcher indexSwitcher = new IndexSwitcher(0);
 
+        internal IItemExtensionsApi? ItemExtensionsApi { get; private set; }
+
         public override void Entry(IModHelper helper)
         {
             Instance = this;
@@ -48,9 +50,8 @@ namespace AutomateToolSwap
             isRangedToolsInstalled = Helper.ModRegistry.IsLoaded("vgperson.RangedTools");
             ConfigSetup.SetupConfig(Helper, Instance);
             modsPath = Path.Combine(AppContext.BaseDirectory, "Mods");
+            ItemExtensionsApi = Helper.ModRegistry.GetApi<IItemExtensionsApi>("mistyspring.ItemExtensions"); 
         }
-
-
 
 
         [EventPriority(EventPriority.High)]

@@ -44,6 +44,64 @@ public class Check
                 ModEntry.SetTool(player, typeof(Axe));
             return true;
         }
+
+        if (ModEntry.ItemExtensionsApi?.IsResource(obj.ItemId, out _, out _) == true)
+        {
+            ModEntry.ItemExtensionsApi.GetBreakingTool(obj.ItemId, false, out var objTool);
+            if (string.IsNullOrWhiteSpace(objTool) == false)
+            {
+                switch (objTool)
+                {
+                    case "Any":
+                    case "All":
+                    case "Pickaxe":
+                        if (config.PickaxeForStoneAndOres)
+                            ModEntry.SetTool(player, typeof(Pickaxe));
+                        return true;
+                    case "Axe":
+                        if (config.AxeForTwigs)
+                            ModEntry.SetTool(player, typeof(Axe));
+                        return true;
+                    case "Dagger":
+                        if (config.WeaponForOres)
+                            ModEntry.SetTool(player, typeof(MeleeWeapon), "Dagger");
+                        return true;
+                    case "Hammer":
+                        if (config.WeaponForOres)
+                            ModEntry.SetTool(player, typeof(MeleeWeapon), "Hammer");
+                        return true;
+                    case "Hoe":
+                        if (config.HoeForOres)
+                            ModEntry.SetTool(player, typeof(Hoe));
+                        return true;
+                    case "Golden Scythe":
+                    case "Iridium Scythe":
+                    case "Scythe":
+                        if (config.ScytheForOres)
+                            ModEntry.SetTool(player, typeof(MeleeWeapon), "Scythe");
+                        return true;
+                    case "Sword":
+                        if (config.WeaponForOres)
+                            ModEntry.SetTool(player, typeof(MeleeWeapon), "Sword");
+                        return true;
+                    case "WateringCan":
+                        if (config.WateringCanForOres)
+                            ModEntry.SetTool(player, typeof(WateringCan));
+                        return true;
+                    case "Weapon":
+                        if (config.WeaponForOres)
+                            ModEntry.SetTool(player, typeof(MeleeWeapon));
+                        return true;
+                    default:
+                        if (objTool.StartsWith("AnyExcept"))
+                        {
+                            var notTool = objTool.Replace("AnyExcept", "");
+                            GetOppositeOfTool(player, notTool);
+                        }
+                        return true;
+                }
+            }
+        }
         // Checks for characteristics of the object, and swaps items accordlingly
         switch (obj)
         {
@@ -187,6 +245,67 @@ public class Check
         return true;
     }
 
+    
+    ///<summary>Choose the first tool whose config applies. If none, default to pickaxe.</summary>
+    private void GetOppositeOfTool(Farmer player, string notTool)
+    {
+        switch (notTool)
+                {
+                    case "Pickaxe":
+                        if (config.AxeForTwigs)
+                            ModEntry.SetTool(player, typeof(Axe));
+                        else if (config.HoeForOres)
+                            ModEntry.SetTool(player, typeof(Hoe));
+                        else if (config.WateringCanForOres)
+                            ModEntry.SetTool(player, typeof(WateringCan));
+                        else
+                            ModEntry.SetTool(player, typeof(Pickaxe));
+                        break;
+                    case "Axe":
+                        if (config.PickaxeForStoneAndOres)
+                            ModEntry.SetTool(player, typeof(Pickaxe));
+                        else if (config.HoeForOres)
+                            ModEntry.SetTool(player, typeof(Hoe));
+                        else if (config.WateringCanForOres)
+                            ModEntry.SetTool(player, typeof(WateringCan));
+                        else
+                            ModEntry.SetTool(player, typeof(Pickaxe));
+                        break;
+                    case "Hoe":
+                        if (config.PickaxeForStoneAndOres)
+                            ModEntry.SetTool(player, typeof(Pickaxe));
+                        else if (config.AxeForTwigs)
+                            ModEntry.SetTool(player, typeof(Axe));
+                        else if (config.WateringCanForOres)
+                            ModEntry.SetTool(player, typeof(WateringCan));
+                        else
+                            ModEntry.SetTool(player, typeof(Pickaxe));
+                        break;
+                    case "WateringCan":
+                        if (config.PickaxeForStoneAndOres)
+                            ModEntry.SetTool(player, typeof(Pickaxe));
+                        else if (config.AxeForTwigs)
+                            ModEntry.SetTool(player, typeof(Axe));
+                        else if (config.HoeForOres)
+                            ModEntry.SetTool(player, typeof(Hoe));
+                        else
+                            ModEntry.SetTool(player, typeof(Pickaxe));
+                        break;
+                    default:
+                        if (config.PickaxeForStoneAndOres)
+                            ModEntry.SetTool(player, typeof(Pickaxe));
+                        else if (config.AxeForTwigs)
+                            ModEntry.SetTool(player, typeof(Axe));
+                        else if (config.HoeForOres)
+                            ModEntry.SetTool(player, typeof(Hoe));
+                        else if (config.WateringCanForOres)
+                            ModEntry.SetTool(player, typeof(WateringCan));
+                        else
+                            ModEntry.SetTool(player, typeof(Pickaxe));
+                        break;
+                }
+    }
+
 
     // TerrainFeatures are trees, bushes, grass and tilled dirt
     public bool TerrainFeatures(GameLocation location, Vector2 tile, Farmer player)
@@ -308,7 +427,6 @@ public class Check
             return new List<int> { 758, 756, 754, 752, 672, 622, 148 }.Contains(resourceClump.parentSheetIndex);
         }
 
-
         foreach (var resourceClump in location.resourceClumps)
         {
             if (resourceClump.occupiesTile((int)tilePosition.X, (int)tilePosition.Y))
@@ -330,6 +448,66 @@ public class Check
                 {
                     ModEntry.SetTool(player, typeof(Pickaxe));
                     return true;
+                }
+
+                if (!resourceClump.modData.TryGetValue("mistyspring.ItemExtensions/CustomClumpId", out var resourceClumpId)) 
+                    continue;
+                if (ModEntry.ItemExtensionsApi?.IsResource(resourceClumpId, out _, out _) == true)
+                {
+                    ModEntry.ItemExtensionsApi.GetBreakingTool(resourceClumpId, true, out var objTool);
+                    if (string.IsNullOrWhiteSpace(objTool) == false)
+                    {
+                        switch (objTool)
+                        {
+                            case "Any":
+                            case "All":
+                            case "Pickaxe":
+                                if (config.PickaxeForStoneAndOres)
+                                    ModEntry.SetTool(player, typeof(Pickaxe));
+                                return true;
+                            case "Axe":
+                                if (config.AxeForTwigs)
+                                    ModEntry.SetTool(player, typeof(Axe));
+                                return true;
+                            case "Dagger":
+                                if (config.WeaponForOres)
+                                    ModEntry.SetTool(player, typeof(MeleeWeapon), "Dagger");
+                                return true;
+                            case "Hammer":
+                                if (config.WeaponForOres)
+                                    ModEntry.SetTool(player, typeof(MeleeWeapon), "Hammer");
+                                return true;
+                            case "Hoe":
+                                if (config.HoeForOres)
+                                    ModEntry.SetTool(player, typeof(Hoe));
+                                return true;
+                            case "Golden Scythe":
+                            case "Iridium Scythe":
+                            case "Scythe":
+                                if (config.ScytheForOres)
+                                    ModEntry.SetTool(player, typeof(MeleeWeapon), "Scythe");
+                                return true;
+                            case "Sword":
+                                if (config.WeaponForOres)
+                                    ModEntry.SetTool(player, typeof(MeleeWeapon), "Sword");
+                                return true;
+                            case "WateringCan":
+                                if (config.WateringCanForOres)
+                                    ModEntry.SetTool(player, typeof(WateringCan));
+                                return true;
+                            case "Weapon":
+                                if (config.WeaponForOres)
+                                    ModEntry.SetTool(player, typeof(MeleeWeapon));
+                                return true;
+                            default:
+                                if (objTool.StartsWith("AnyExcept"))
+                                {
+                                    var notTool = objTool.Replace("AnyExcept", "");
+                                    GetOppositeOfTool(player, notTool);
+                                }
+                                return true;
+                        }
+                    }
                 }
             }
         }

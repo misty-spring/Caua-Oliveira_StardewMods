@@ -24,6 +24,7 @@ namespace AutomateToolSwap
         public int MonsterRangeDetection { get; set; } = 3;
         public bool WeaponForMineBarrels { get; set; } = true;
         public bool IgnoreCrabs { get; set; } = true;
+        public bool WeaponForOres { get; set; } = true;
         /****
         ** Pickaxe Page Options
         ****/
@@ -49,6 +50,7 @@ namespace AutomateToolSwap
         public bool HoeForArtifactSpots { get; set; } = true;
         public bool HoeForGingerCrop { get; set; } = true;
         public bool HoeForDiggableSoil { get; set; } = true;
+        public bool HoeForOres { get; set; } = true;
 
         /****
         ** Scythe Page Options
@@ -59,6 +61,7 @@ namespace AutomateToolSwap
         public bool ScytheForCrops { get; set; } = true;
         public bool ScytheForGrass { get; set; } = false;
         public bool ScytheForForage { get; set; } = false;
+        public bool ScytheForOres { get; set; } = true;
 
         /****
         ** WateringCan Page Options
@@ -67,6 +70,7 @@ namespace AutomateToolSwap
         public bool WateringCanForUnwateredCrop { get; set; } = true;
         public bool WateringCanForPetBowl { get; set; } = true;
         public bool WateringCanForWater { get; set; } = true;
+        public bool WateringCanForOres { get; set; } = true;
 
         /****
         ** Machines Page Options
