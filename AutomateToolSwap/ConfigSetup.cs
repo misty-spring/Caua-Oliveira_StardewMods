@@ -16,6 +16,7 @@ namespace AutomateToolSwap
             var i18n = helper.Translation;
             var ModManifest = modInstance.ModManifest;
             isTractorModInstalled = modInstance.Helper.ModRegistry.IsLoaded("Pathoschild.TractorMod");
+            var isItemExtensionsInstalled = modInstance.Helper.ModRegistry.IsLoaded("mistyspring.ItemExtensions");
 
             if (configMenu == null)
                 return;
@@ -135,6 +136,15 @@ namespace AutomateToolSwap
                 getValue: () => Config.IgnoreCrabs,
                 setValue: isEnabled => Config.IgnoreCrabs = isEnabled
             );
+            if (isItemExtensionsInstalled)
+            {
+                configMenu.AddBoolOption(ModManifest,
+                    name: () => i18n.Get("config.WeaponForOres.name"),
+                    tooltip: () => i18n.Get("config.WeaponForOres.tooltip"),
+                    getValue: () => Config.WeaponForOres,
+                    setValue: isEnabled => Config.WeaponForOres = isEnabled
+                );
+            }
             configMenu.AddPage(ModManifest, String.Empty, () => i18n.Get("config.goBack"));
 
             /****
@@ -234,6 +244,15 @@ namespace AutomateToolSwap
                 getValue: () => Config.HoeForDiggableSoil,
                 setValue: isEnabled => Config.HoeForDiggableSoil = isEnabled
             );
+            if (isItemExtensionsInstalled)
+            {
+                configMenu.AddBoolOption(ModManifest,
+                    name: () => i18n.Get("config.HoeForOres.name"),
+                    tooltip: () => i18n.Get("config.HoeForOres.tooltip"),
+                    getValue: () => Config.HoeForOres,
+                    setValue: isEnabled => Config.HoeForOres = isEnabled
+                );
+            }
             configMenu.AddPage(ModManifest, String.Empty, () => i18n.Get("config.goBack"));
 
             /****
@@ -280,6 +299,15 @@ namespace AutomateToolSwap
                 getValue: () => Config.ScytheForForage,
                 setValue: isEnabled => Config.ScytheForForage = isEnabled
             );
+            if (isItemExtensionsInstalled)
+            {
+                configMenu.AddBoolOption(ModManifest,
+                    name: () => i18n.Get("config.ScytheForOres.name"),
+                    tooltip: () => i18n.Get("config.ScytheForOres.tooltip"),
+                    getValue: () => Config.ScytheForOres,
+                    setValue: isEnabled => Config.ScytheForOres = isEnabled
+                );
+            }
             configMenu.AddPage(ModManifest, String.Empty, () => i18n.Get("config.goBack"));
 
             /****
@@ -313,6 +341,15 @@ namespace AutomateToolSwap
                 getValue: () => Config.WateringCanForWater,
                 setValue: isEnabled => Config.WateringCanForWater = isEnabled
             );
+            if (isItemExtensionsInstalled)
+            {
+                configMenu.AddBoolOption(ModManifest,
+                    name: () => i18n.Get("config.WateringCanForOres.name"),
+                    tooltip: () => i18n.Get("config.WateringCanForOres.tooltip"),
+                    getValue: () => Config.WateringCanForOres,
+                    setValue: isEnabled => Config.WateringCanForOres = isEnabled
+                );
+            }
             configMenu.AddPage(ModManifest, String.Empty, () => i18n.Get("config.goBack"));
 
 

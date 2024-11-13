@@ -9,6 +9,15 @@
   "config.SwapForOilMaker.name": "Swap for Oil Maker",
   "config.SwapForOilMaker.tooltip": "Swaps to truffle when clicking on Oil Maker",
   
+  "config.WeaponForOres.name": "Weapon for Ores",
+  "config.WeaponForOres.tooltip": "Automatically switch to a weapon when clicking destroyable stones/ores. (Requires Item Extensions)",
+  "config.HoeForOres.name": "Hoe for Ores",
+  "config.HoeForOres.tooltip": "Automatically switch to a hoe when clicking destroyable stones/ores. (Requires Item Extensions)",
+  "config.ScytheForOres.name": "Scythe for Ores",
+  "config.ScytheForOres.tooltip": "Automatically switch to a scythe when clicking destroyable stones/ores. (Requires Item Extensions)",
+  "config.WateringCanForOres.name": "Watering Can for Ores",
+  "config.WateringCanForOres.tooltip": "Automatically switch to the watering can when clicking destroyable stones/ores. (Requires Item Extensions)",
+
 
   /***
 ** MAIN SETTINGS
